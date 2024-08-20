@@ -276,7 +276,13 @@ fig.update_yaxes(title_text = '생활 면적')
 
 ```{python}
 #| output: False
-loc_sub = loc['Overall_Cond'].value_counts().sort_values()
+# 먼저 등급에 순서를 주기 위해 Categorical 데이터 타입을 사용
+rank_order = ['Very_Poor', 'Poor', 'Fair', 'Below_Average', 'Average', 'Above_Average', 'Good', 'Very_Good', 'Excellent', 'Very_Excellent']
+loc['Overall_Cond'] = pd.Categorical(loc['Overall_Cond'], categories=rank_order, ordered=True)
+
+# 이제 정렬된 순서대로 value_counts를 계산
+loc_sub = loc['Overall_Cond'].value_counts().sort_index()
+
 fig2 = go.Figure()
 
 fig2.add_trace(
